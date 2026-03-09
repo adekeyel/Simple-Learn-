@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SimpleLearn</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
+        header { background: #2b7cff; color: white; padding: 20px; text-align: center; }
+        .container { padding: 20px; }
+        .filter, .search { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; background:#ddd; }
+        .filter button.active { background:#2b7cff; color:white; }
+        input[type="text"] { padding: 10px; flex:1; border-radius:5px; border:1px solid #ccc; }
+        .subjects { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 15px; }
+        .card { background:white; padding:20px; border-radius:8px; text-align:center; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        .card:hover { background:#e8f0ff; }
+        .lesson { margin-top:25px; background:white; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); display:none; }
+    </style>
+    <script>
+        const subjects = [
+            {name:"Mathematics", dept:"Science", id:"math"},
+            {name:"English Language", dept:"All", id:"english"},
+            {name:"Biology", dept:"Science", id:"biology"},
+            {name:"Chemistry", dept:"Science", id:"chemistry"},
+            {name:"Physics", dept:"Science", id:"physics"},
+            {name:"Commerce", dept:"Commercial", id:"commerce"},
+            {name:"Accounting", dept:"Commercial", id:"accounting"},
+            {name:"Economics", dept:"Commercial", id:"economics"},
+            {name:"Literature in English", dept:"Arts", id:"literature"},
+            {name:"Government", dept:"Arts", id:"government"},
+            {name:"History", dept:"Arts", id:"history"},
+            {name:"Agricultural Science", dept:"Science", id:"agriculture"},
+            {name:"Computer Science", dept:"All", id:"computer"}
+        ];
+
+        function loadSubjects(filter="All") {
+            let container = document.getElementById("subjectContainer");
+            container.innerHTML = "";
+            subjects.forEach(s => {
+                if(filter === "All" || s.dept === filter || s.dept==="All") {
+                    let card = document.createElement("div");
+                    card.className = "card";
+                    card.innerText = s.name;
+                    card.onclick = () => showLesson(s.id);
+                    container.appendChild(card);
+                }
+            });const examQuestions = {
+    "math": [
+        {
+            question: "Solve: 2x + 5 = 15",
+            answer: "x = 5",
+            explanation: "Subtract 5 from both sides: 2x = 10. Divide by 2: x = 5."
+        }
+    ],
+    "english": [
+        {
+            question: "Identify the noun: Run, Book, Quickly",
+            answer: "Book",
+            explanation: "A noun is the name of a person, place, animal, or thing. 'Book' is a thing."
+        }
+    ],
+    "literature": [
+        {
+            question: "Who wrote Things Fall Apart?",
+            answer: "Chinua Achebe",
+            explanation: "Chinua Achebe wrote Things Fall Apart in 1958. It tells the story of Okonkwo and Igbo society."
+        }
+    ]
+    // Add more questions for other subjects later
+};
+
+function showLesson(subject){
+    let lessonBox = document.getElementById("lesson");
+    let content = "";
+
+    // Existing lesson content
+    switch(subject){
+        case "math":
+            content = `<h2>Mathematics: Fractions</h2>
+                       <p><b>Simple Explanation:</b> A fraction shows part of a whole.</p>
+                       <p><b>Example:</b> If a pizza has 4 slices and you eat 1 slice, you ate 1/4.</p>
+                       <p><b>Practice Question:</b> A cake has 8 slices. You eat 2. What fraction did you eat?</p>`;
+            break;
+        case "english":
+            content = `<h2>English Language: Noun</h2>
+                       <p><b>Simple Explanation:</b> A noun is the name of a person, place, animal, or thing.</p>
+                       <p><b>Example:</b> Teacher, Lagos, Dog, Book.</p>
+                       <p><b>Practice Question:</b> Which of these is a noun? Run, Book, Quickly</p>`;
+            break;
+        case "literature":
+            content = `<h2>Literature in English: Figurative Language</h2>
+                       <p><b>Simple Explanation:</b> Figurative language uses words to create meaning beyond literal.</p>
+                       <p><b>Example:</b> “The world is a stage” means life is like acting in a play.</p>
+                       <p><b>Practice Question:</b> Give one example of a metaphor.</p>`;
+            break;
+        // other subjects...
+        default:
+            content = `<p>Lesson not available yet.</p>`;
+    }
+
+    // Add Exam Question Section if available
+    if(examQuestions[subject]){
+        content += `<h3>Exam Questions Explained</h3>`;
+        examQuestions[subject].forEach(q=>{
+            content += `<p><b>Question:</b> ${q.question}</p>
+                        <p><b>Answer:</b> ${q.answer}</p>
+                        <p><b>Explanation:</b> ${q.explanation}</p><hr>`;
+        });
+    }
+
+    lessonBox.innerHTML = content;
+    lessonBox.style.display = "block";
+}
+        }
+
+        function showLesson(subject){
+            let lessonBox = document.getElementById("lesson");
+            let content = "";
+
+            switch(subject){
+                case "math":
+                    content = `<h2>Mathematics: Fractions</h2><p><b>Simple Explanation:</b> A fraction shows part of a whole.</p><p><b>Example:</b> If a pizza has 4 slices and you eat 1 slice, you ate 1/4.</p><p><b>Practice Question:</b> A cake has 8 slices. You eat 2. What fraction did you eat?</p>`; break;
+                case "english":
+                    content = `<h2>English Language: Noun</h2><p><b>Simple Explanation:</b> A noun is the name of a person, place, animal, or thing.</p><p><b>Example:</b> Teacher, Lagos, Dog, Book.</p><p><b>Practice Question:</b> Which of these is a noun? Run, Book, Quickly</p>`; break;
+                case "biology":
+                    content = `<h2>Biology: Photosynthesis</h2><p><b>Simple Explanation:</b> Plants make their food using sunlight, water, and air.</p><p><b>Example:</b> Just like humans cook food, plants make their own food using sunlight.</p><p><b>Practice Question:</b> What three things do plants need to make food?</p>`; break;
+                case "chemistry":
+                    content = `<h2>Chemistry: States of Matter</h2><p><b>Simple Explanation:</b> Matter exists in three main states: solid, liquid, gas.</p><p><b>Example:</b> Ice (solid), Water (liquid), Steam (gas).</p><p><b>Practice Question:</b> Give one example of each state of matter.</p>`; break;
+                case "physics":
+                    content = `<h2>Physics: Gravity</h2><p><b>Simple Explanation:</b> Gravity is the force that pulls objects toward the Earth.</p><p><b>Example:</b> When you drop a ball, it falls to the ground due to gravity.</p><p><b>Practice Question:</b> What force keeps us on the ground?</p>`; break;
+                case "commerce":
+                    content = `<h2>Commerce: Sole Proprietorship</h2><p><b>Simple Explanation:</b> A business owned and controlled by one person.</p><p><b>Example:</b> A tailor who owns his shop alone.</p><p><b>Practice Question:</b> Name one advantage of a sole proprietorship.</p>`; break;
+                case "accounting":
+                    content = `<h2>Accounting: Basic Concept</h2><p><b>Simple Explanation:</b> Accounting is the process of recording financial transactions.</p><p><b>Example:</b> Writing down money received and money spent in a notebook.</p><p><b>Practice Question:</b> What is the main purpose of accounting?</p>`; break;
+                case "economics":
+                    content = `<h2>Economics: Demand and Supply</h2><p><b>Simple Explanation:</b> Demand is how much people want, Supply is how much is available.</p><p><b>Example:</b> If more people want oranges, the price may rise if supply is low.</p><p><b>Practice Question:</b> What happens when demand increases but supply stays the same?</p>`; break;
+                case "literature":
+                    content = `<h2>Literature in English: Figurative Language</h2><p><b>Simple Explanation:</b> Figurative language uses words to create meaning beyond literal.</p><p><b>Example:</b> “The world is a stage” means life is like acting in a play.</p><p><b>Practice Question:</b> Give one example of a metaphor.</p>`; break;
+                case "government":
+                    content = `<h2>Government: Democracy</h2><p><b>Simple Explanation:</b> Democracy is a system where citizens vote to choose leaders.</p><p><b>Example:</b> Nigerian citizens vote for the president every 4 years.</p><p><b>Practice Question:</b> What is the main feature of democracy?</p>`; break;
+                case "history":
+                    content = `<h2>History: Colonialism</h2><p><b>Simple Explanation:</b> Colonialism is when one country controls another.</p><p><b>Example:</b> Britain ruled Nigeria from 1861–1960.</p><p><b>Practice Question:</b> Name one effect of colonialism in Africa.</p>`; break;
+                case "agriculture":
+                    content = `<h2>Agricultural Science: Crop Farming</h2><p><b>Simple Explanation:</b> Crop farming is growing plants for food.</p><p><b>Example:</b> Planting maize, rice, or cassava for food.</p><p><b>Practice Question:</b> Name two crops grown in your region.</p>`; break;
+                case "computer":
+                    content = `<h2>Computer Science: Computer Basics</h2><p><b>Simple Explanation:</b> A computer is a machine that processes information.</p><p><b>Example:</b> Your phone or laptop is a computer.</p><p><b>Practice Question:</b> Name two types of computers.</p>`; break;
+                default:
+                    content = `<p>Lesson not available yet.</p>`;
+            }
+
+            lessonBox.innerHTML = content;
+            lessonBox.style.display = "block";
+        }
+
+        function filterDept(dept){
+            const buttons = document.querySelectorAll(".filter button");
+            buttons.forEach(b => b.classList.remove("active"));
+            document.getElementById(dept+"Btn")?.classList.add("active");
+            loadSubjects(dept);
+            document.getElementById("lesson").style.display="none";
+        }
+
+        function searchSubjects(){
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            let container = document.getElementById("subjectContainer");
+            container.innerHTML = "";
+            subjects.forEach(s=>{
+                if(s.name.toLowerCase().includes(query)){
+                    let card = document.createElement("div");
+                    card.className="card";
+                    card.innerText = s.name;
+                    card.onclick=()=>showLesson(s.id);
+                    container.appendChild(card);
+                }
+            });
+        }
+
+        window.onload = function(){
+            loadSubjects();
+        }
+
+    </script>
+</head>
+<body>
+    <header>
+        <h1>SimpleLearn</h1>
+        <p>School topics explained in the simplest way</p>
+    </header>
+
+    <div class="container">
+        <div class="filter">
+            <button id="AllBtn" class="active" onclick="filterDept('All')">All</button>
+            <button id="ScienceBtn" onclick="filterDept('Science')">Science</button>
+            <button id="CommercialBtn" onclick="filterDept('Commercial')">Commercial</button>
+            <button id="ArtsBtn" onclick="filterDept('Arts')">Arts</button>
+        </div>
+
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Search topics..." onkeyup="searchSubjects()">
+        </div>
+
+        <div id="subjectContainer" class="subjects"></div>
+
+        <div id="lesson" class="lesson"></div>
+    </div>
+</body>
+</html>
